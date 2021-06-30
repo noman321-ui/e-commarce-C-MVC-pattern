@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNum" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ImageFile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateOfBirth" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Usertype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ImageFile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usertype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="OrderProducts" Relationship="Self.FK_OrderProduct_Customer" FromRole="Customer" ToRole="OrderProduct" />
+    <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Customer" FromRole="Customer" ToRole="Report" />
+    <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Customer" FromRole="Customer" ToRole="Review" />
+    <NavigationProperty Name="TempOrderProducts" Relationship="Model.FK_TempOrderProduct_Customer" FromRole="Customer" ToRole="TempOrderProduct" />
+  </EntityType>
+  <EntityType Name="FinalSubCategory">
+    <Key>
+      <PropertyRef Name="FinalSubCate_id" />
+    </Key>
+    <Property Name="FinalSubCate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FinalSubCate_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SubCate_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SubCatetory" Relationship="Self.FK_FinalSubCategory_SubCatetory" FromRole="FinalSubCategory" ToRole="SubCatetory" />
+    <NavigationProperty Name="ProductHistories" Relationship="Self.FK_ProductHistory_FinalSubCategory" FromRole="FinalSubCategory" ToRole="ProductHistory" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_FinalSubCategory1" FromRole="FinalSubCategory" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="MainCategory">
+    <Key>
+      <PropertyRef Name="Category_id" />
+    </Key>
+    <Property Name="Category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ProductHistories" Relationship="Self.FK_ProductHistory_MainCategory" FromRole="MainCategory" ToRole="ProductHistory" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_MainCategory1" FromRole="MainCategory" ToRole="Products" />
+    <NavigationProperty Name="SubCatetories" Relationship="Self.FK_SubCatetory_MainCategory" FromRole="MainCategory" ToRole="SubCatetory" />
+  </EntityType>
+  <EntityType Name="Manager">
+    <Key>
+      <PropertyRef Name="ManagerID" />
+    </Key>
+    <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ImageFIle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Usertype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="totalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Size" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrderProducts" Relationship="Self.FK_OrderProduct_OrderProduct" FromRole="Order" ToRole="OrderProduct" />
+    <Property Name="PayMentMethod" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="OrderProduct">
+    <Key>
+      <PropertyRef Name="ProductOrderID" />
+    </Key>
+    <Property Name="ProductOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_OrderProduct_Customer" FromRole="OrderProduct" ToRole="Customer" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderProduct_OrderProduct" FromRole="OrderProduct" ToRole="Order" />
+    <NavigationProperty Name="ProductHistory" Relationship="Self.FK_OrderProduct_ProductHistory" FromRole="OrderProduct" ToRole="ProductHistory" />
+    <NavigationProperty Name="Profits" Relationship="Model.FK_Profit_OrderProduct" FromRole="OrderProduct" ToRole="Profit" />
+  </EntityType>
+  <EntityType Name="ProductHistory">
+    <Key>
+      <PropertyRef Name="Product_id" />
+    </Key>
+    <Property Name="Product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="ImageFile" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="SaleID" Type="Int32" />
+    <Property Name="FinalSubCategoryID" Type="Int32" />
+    <Property Name="Product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SubCategoryID" Type="Int32" />
+    <Property Name="SizeCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="FinalSubCategory" Relationship="Self.FK_ProductHistory_FinalSubCategory" FromRole="ProductHistory" ToRole="FinalSubCategory" />
+    <NavigationProperty Name="MainCategory" Relationship="Self.FK_ProductHistory_MainCategory" FromRole="ProductHistory" ToRole="MainCategory" />
+    <NavigationProperty Name="OrderProducts" Relationship="Self.FK_OrderProduct_ProductHistory" FromRole="ProductHistory" ToRole="OrderProduct" />
+    <NavigationProperty Name="Sale" Relationship="Self.FK_ProductHistory_Sale" FromRole="ProductHistory" ToRole="Sale" />
+    <NavigationProperty Name="SubCatetory" Relationship="Self.FK_ProductHistory_SubCatetory" FromRole="ProductHistory" ToRole="SubCatetory" />
+    <NavigationProperty Name="ProductSizeHistories" Relationship="Self.FK_ProductSizeHistory_ProductHistory" FromRole="ProductHistory" ToRole="ProductSizeHistory" />
+    <NavigationProperty Name="SaleHistory" Relationship="Model.FK_ProductHistory_Sale1" FromRole="ProductHistory" ToRole="SaleHistory" />
+    <Property Name="OnHand" Type="Int32" />
+    <NavigationProperty Name="TempOrderProducts" Relationship="Model.FK_TempOrderProduct_ProductHistory" FromRole="ProductHistory" ToRole="TempOrderProduct" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_id" />
+    </Key>
+    <Property Name="Product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="ImageFile" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="SaleID" Type="Int32" />
+    <Property Name="FinalSubCategoryID" Type="Int32" />
+    <Property Name="Product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SubCategoryID" Type="Int32" />
+    <Property Name="SizeCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="FinalSubCategory" Relationship="Self.FK_Products_FinalSubCategory1" FromRole="Products" ToRole="FinalSubCategory" />
+    <NavigationProperty Name="MainCategory" Relationship="Self.FK_Products_MainCategory1" FromRole="Products" ToRole="MainCategory" />
+    <NavigationProperty Name="Sale" Relationship="Self.FK_Products_Sale" FromRole="Products" ToRole="Sale" />
+    <NavigationProperty Name="SubCatetory" Relationship="Self.FK_Products_SubCatetory" FromRole="Products" ToRole="SubCatetory" />
+    <NavigationProperty Name="ProductSizes" Relationship="Self.FK_ProductSize_Products" FromRole="Products" ToRole="ProductSize" />
+    <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Products" FromRole="Products" ToRole="Review" />
+    <Property Name="OnHand" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ProductSize">
+    <Key>
+      <PropertyRef Name="ProductSizeID" />
+    </Key>
+    <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SizeName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_ProductSize_Products" FromRole="ProductSize" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="ProductSizeHistory">
+    <Key>
+      <PropertyRef Name="ProductSizeID" />
+    </Key>
+    <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SizeName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProductHistory" Relationship="Self.FK_ProductSizeHistory_ProductHistory" FromRole="ProductSizeHistory" ToRole="ProductHistory" />
+  </EntityType>
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="ReportID" />
+    </Key>
+    <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Report_Customer" FromRole="Report" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="ReviewID" />
+    </Key>
+    <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="ReviewTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Review_Customer" FromRole="Review" ToRole="Customer" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Review_Products" FromRole="Review" ToRole="Products" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Sale">
+    <Key>
+      <PropertyRef Name="SaleID" />
+    </Key>
+    <Property Name="SaleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Amount" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="ProductHistories" Relationship="Self.FK_ProductHistory_Sale" FromRole="Sale" ToRole="ProductHistory" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_Sale" FromRole="Sale" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="SubCatetory">
+    <Key>
+      <PropertyRef Name="SubCategory_id" />
+    </Key>
+    <Property Name="SubCategory_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubCategory_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MCategory_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FinalSubCategories" Relationship="Self.FK_FinalSubCategory_SubCatetory" FromRole="SubCatetory" ToRole="FinalSubCategory" />
+    <NavigationProperty Name="MainCategory" Relationship="Self.FK_SubCatetory_MainCategory" FromRole="SubCatetory" ToRole="MainCategory" />
+    <NavigationProperty Name="ProductHistories" Relationship="Self.FK_ProductHistory_SubCatetory" FromRole="SubCatetory" ToRole="ProductHistory" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_SubCatetory" FromRole="SubCatetory" ToRole="Products" />
+  </EntityType>
+  <Association Name="FK_OrderProduct_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Review_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Review" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FinalSubCategory_SubCatetory">
+    <End Role="SubCatetory" Type="Self.SubCatetory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FinalSubCategory" Type="Self.FinalSubCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCatetory">
+        <PropertyRef Name="SubCategory_id" />
+      </Principal>
+      <Dependent Role="FinalSubCategory">
+        <PropertyRef Name="SubCate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductHistory_FinalSubCategory">
+    <End Role="FinalSubCategory" Type="Self.FinalSubCategory" Multiplicity="0..1" />
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FinalSubCategory">
+        <PropertyRef Name="FinalSubCate_id" />
+      </Principal>
+      <Dependent Role="ProductHistory">
+        <PropertyRef Name="FinalSubCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_FinalSubCategory1">
+    <End Role="FinalSubCategory" Type="Self.FinalSubCategory" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FinalSubCategory">
+        <PropertyRef Name="FinalSubCate_id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="FinalSubCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductHistory_MainCategory">
+    <End Role="MainCategory" Type="Self.MainCategory" Multiplicity="1" />
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MainCategory">
+        <PropertyRef Name="Category_id" />
+      </Principal>
+      <Dependent Role="ProductHistory">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_MainCategory1">
+    <End Role="MainCategory" Type="Self.MainCategory" Multiplicity="1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MainCategory">
+        <PropertyRef Name="Category_id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SubCatetory_MainCategory">
+    <End Role="MainCategory" Type="Self.MainCategory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SubCatetory" Type="Self.SubCatetory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MainCategory">
+        <PropertyRef Name="Category_id" />
+      </Principal>
+      <Dependent Role="SubCatetory">
+        <PropertyRef Name="MCategory_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_OrderProduct">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_ProductHistory">
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="1" />
+    <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductHistory">
+        <PropertyRef Name="Product_id" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductHistory_Sale">
+    <End Role="Sale" Type="Self.Sale" Multiplicity="0..1" />
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale">
+        <PropertyRef Name="SaleID" />
+      </Principal>
+      <Dependent Role="ProductHistory">
+        <PropertyRef Name="SaleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductHistory_SubCatetory">
+    <End Role="SubCatetory" Type="Self.SubCatetory" Multiplicity="0..1" />
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCatetory">
+        <PropertyRef Name="SubCategory_id" />
+      </Principal>
+      <Dependent Role="ProductHistory">
+        <PropertyRef Name="SubCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSizeHistory_ProductHistory">
+    <End Role="ProductHistory" Type="Self.ProductHistory" Multiplicity="1" />
+    <End Role="ProductSizeHistory" Type="Self.ProductSizeHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductHistory">
+        <PropertyRef Name="Product_id" />
+      </Principal>
+      <Dependent Role="ProductSizeHistory">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Sale">
+    <End Role="Sale" Type="Self.Sale" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale">
+        <PropertyRef Name="SaleID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SaleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_SubCatetory">
+    <End Role="SubCatetory" Type="Self.SubCatetory" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCatetory">
+        <PropertyRef Name="SubCategory_id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SubCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSize_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductSize" Type="Self.ProductSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Product_id" />
+      </Principal>
+      <Dependent Role="ProductSize">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Review_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Review" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Product_id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EcommerceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="FinalSubCategories" EntityType="Self.FinalSubCategory" />
+    <EntitySet Name="MainCategories" EntityType="Self.MainCategory" />
+    <EntitySet Name="Managers" EntityType="Self.Manager" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="OrderProducts" EntityType="Self.OrderProduct" />
+    <EntitySet Name="ProductHistories" EntityType="Self.ProductHistory" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductSizes" EntityType="Self.ProductSize" />
+    <EntitySet Name="ProductSizeHistories" EntityType="Self.ProductSizeHistory" />
+    <EntitySet Name="Reports" EntityType="Self.Report" />
+    <EntitySet Name="Reviews" EntityType="Self.Review" />
+    <EntitySet Name="Sales" EntityType="Self.Sale" />
+    <EntitySet Name="SubCatetories" EntityType="Self.SubCatetory" />
+    <AssociationSet Name="FK_OrderProduct_Customer" Association="Self.FK_OrderProduct_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_Customer" Association="Self.FK_Report_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Report" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Review_Customer" Association="Self.FK_Review_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FinalSubCategory_SubCatetory" Association="Self.FK_FinalSubCategory_SubCatetory">
+      <End Role="SubCatetory" EntitySet="SubCatetories" />
+      <End Role="FinalSubCategory" EntitySet="FinalSubCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductHistory_FinalSubCategory" Association="Self.FK_ProductHistory_FinalSubCategory">
+      <End Role="FinalSubCategory" EntitySet="FinalSubCategories" />
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_FinalSubCategory1" Association="Self.FK_Products_FinalSubCategory1">
+      <End Role="FinalSubCategory" EntitySet="FinalSubCategories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductHistory_MainCategory" Association="Self.FK_ProductHistory_MainCategory">
+      <End Role="MainCategory" EntitySet="MainCategories" />
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_MainCategory1" Association="Self.FK_Products_MainCategory1">
+      <End Role="MainCategory" EntitySet="MainCategories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SubCatetory_MainCategory" Association="Self.FK_SubCatetory_MainCategory">
+      <End Role="MainCategory" EntitySet="MainCategories" />
+      <End Role="SubCatetory" EntitySet="SubCatetories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_OrderProduct" Association="Self.FK_OrderProduct_OrderProduct">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_ProductHistory" Association="Self.FK_OrderProduct_ProductHistory">
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductHistory_Sale" Association="Self.FK_ProductHistory_Sale">
+      <End Role="Sale" EntitySet="Sales" />
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductHistory_SubCatetory" Association="Self.FK_ProductHistory_SubCatetory">
+      <End Role="SubCatetory" EntitySet="SubCatetories" />
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSizeHistory_ProductHistory" Association="Self.FK_ProductSizeHistory_ProductHistory">
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+      <End Role="ProductSizeHistory" EntitySet="ProductSizeHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Sale" Association="Self.FK_Products_Sale">
+      <End Role="Sale" EntitySet="Sales" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_SubCatetory" Association="Self.FK_Products_SubCatetory">
+      <End Role="SubCatetory" EntitySet="SubCatetories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSize_Products" Association="Self.FK_ProductSize_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductSize" EntitySet="ProductSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Review_Products" Association="Self.FK_Review_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <EntitySet Name="Profits" EntityType="Model.Profit" />
+    <AssociationSet Name="FK_Profit_OrderProduct" Association="Model.FK_Profit_OrderProduct">
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+      <End Role="Profit" EntitySet="Profits" />
+    </AssociationSet>
+    <EntitySet Name="SaleHistories" EntityType="Model.SaleHistory" />
+    <AssociationSet Name="FK_ProductHistory_Sale1" Association="Model.FK_ProductHistory_Sale1">
+      <End Role="SaleHistory" EntitySet="SaleHistories" />
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+    </AssociationSet>
+    <EntitySet Name="TempOrders" EntityType="Model.TempOrder" />
+    <EntitySet Name="TempOrderProducts" EntityType="Model.TempOrderProduct" />
+    <AssociationSet Name="FK_TempOrderProduct_Customer" Association="Model.FK_TempOrderProduct_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="TempOrderProduct" EntitySet="TempOrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TempOrderProduct_ProductHistory" Association="Model.FK_TempOrderProduct_ProductHistory">
+      <End Role="ProductHistory" EntitySet="ProductHistories" />
+      <End Role="TempOrderProduct" EntitySet="TempOrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TempOrderProduct_TempOrder" Association="Model.FK_TempOrderProduct_TempOrder">
+      <End Role="TempOrder" EntitySet="TempOrders" />
+      <End Role="TempOrderProduct" EntitySet="TempOrderProducts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Profit">
+    <Key>
+      <PropertyRef Name="Profit_ID" />
+    </Key>
+    <Property Name="Profit_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductOrderID" Type="Int32" Nullable="false" />
+    <Property Name="ProfitAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <NavigationProperty Name="OrderProduct" Relationship="Model.FK_Profit_OrderProduct" FromRole="Profit" ToRole="OrderProduct" />
+  </EntityType>
+  <Association Name="FK_Profit_OrderProduct">
+    <End Type="Model.OrderProduct" Role="OrderProduct" Multiplicity="1" />
+    <End Type="Model.Profit" Role="Profit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderProduct">
+        <PropertyRef Name="ProductOrderID" />
+      </Principal>
+      <Dependent Role="Profit">
+        <PropertyRef Name="ProductOrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SaleHistory">
+    <Key>
+      <PropertyRef Name="SaleID" />
+    </Key>
+    <Property Name="SaleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Amount" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="ProductHistories" Relationship="Model.FK_ProductHistory_Sale1" FromRole="SaleHistory" ToRole="ProductHistory" />
+  </EntityType>
+  <Association Name="FK_ProductHistory_Sale1">
+    <End Type="Model.SaleHistory" Role="SaleHistory" Multiplicity="0..1" />
+    <End Type="Model.ProductHistory" Role="ProductHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SaleHistory">
+        <PropertyRef Name="SaleID" />
+      </Principal>
+      <Dependent Role="ProductHistory">
+        <PropertyRef Name="SaleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TempOrder">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="totalAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Size" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="PayMentMethod" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TempOrderProducts" Relationship="Model.FK_TempOrderProduct_TempOrder" FromRole="TempOrder" ToRole="TempOrderProduct" />
+  </EntityType>
+  <EntityType Name="TempOrderProduct">
+    <Key>
+      <PropertyRef Name="ProductOrderID" />
+    </Key>
+    <Property Name="ProductOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Model.FK_TempOrderProduct_Customer" FromRole="TempOrderProduct" ToRole="Customer" />
+    <NavigationProperty Name="ProductHistory" Relationship="Model.FK_TempOrderProduct_ProductHistory" FromRole="TempOrderProduct" ToRole="ProductHistory" />
+    <NavigationProperty Name="TempOrder" Relationship="Model.FK_TempOrderProduct_TempOrder" FromRole="TempOrderProduct" ToRole="TempOrder" />
+  </EntityType>
+  <Association Name="FK_TempOrderProduct_Customer">
+    <End Type="Model.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="Model.TempOrderProduct" Role="TempOrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="TempOrderProduct">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TempOrderProduct_ProductHistory">
+    <End Type="Model.ProductHistory" Role="ProductHistory" Multiplicity="1" />
+    <End Type="Model.TempOrderProduct" Role="TempOrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductHistory">
+        <PropertyRef Name="Product_id" />
+      </Principal>
+      <Dependent Role="TempOrderProduct">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TempOrderProduct_TempOrder">
+    <End Type="Model.TempOrder" Role="TempOrder" Multiplicity="1" />
+    <End Type="Model.TempOrderProduct" Role="TempOrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TempOrder">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="TempOrderProduct">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,66 @@
+﻿@model E_Commerce.Models.ViewModels.CategoryViewModel
+
+<div class="profile-div mr-3">
+    <div class="HoverAbleDivProfile">
+        <div class="row cart ">
+            <div class="col">
+                <ul class="profileList">
+
+                    <li>
+                        @if (Session["manager"] != null)
+                        {
+                            <a href="/Logout/index">LogOut</a>
+                        }
+                        else
+                        {
+                            <a href="/Login/Index">Login</a>
+                        }
+
+                    <li>
+                        @if (Session["manager"] != null)
+                        {
+                            <a href="/Manager/ManagerProfile">@Session["managerUserName"]</a>
+                        }
+                        else
+                        {
+                            <a href="/Registration/Index">Registration</a>
+                        }
+                    </li>
+
+
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<nav class="navbar navbar-expand navfont navbar-light bg-dark mt-2">
+    <div class="row">
+        <div class="col">
+            <button type="button" id="sidebarCollapse" class="btn">
+                <i class="fas fa-align-left"></i>
+            </button>
+        </div>
+        <div><div> <div><a class="navbar-brand right ml-2 text-white font-italic" href="/home/index"><b>JNFASHION&reg</b></a></div></div></div>
+
+       
+    </div>
+    
+    <div class="col right">
+       
+    </div>
+    </div>
+    <div><a class="navbar-brand right ml-2 text-dark font-italic" href="/home/index"></a></div>
+    <div class="row">
+        <div class="col right">
+            <a class="mr-3 text-secondary cart" href="#"></a>
+            
+            <a class="text-secondary profile" href="#"><i class="fa fa-user fa-lg"></i></a>
+        </div>
+</nav>
+

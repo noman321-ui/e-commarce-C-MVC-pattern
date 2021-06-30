@@ -1,0 +1,527 @@
+﻿@model E_Commerce.Models.Customer
+
+@{
+    ViewBag.Title = "Index";
+    Session["existUser"] = Model.Username;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-2 border-right border-dark">
+            <h3>My Account</h3>
+            <ul class="list-unstyled">
+                <li><a class="removefocus" onclick="showsalevsregular(this)" href="#">Sale Vs Regular Order</a></li>
+                <li><a onclick="showinfo(this)" class="text-secondary removefocus" href="#">Customer Info</a></li>
+                <li><a class="text-secondary removefocus" href="#">Addresses</a></li>
+                <li><a onclick="showpendingorders(this)" class="text-secondary removefocus" href="#">Pending Orders</a></li>
+                <li><a onclick="showorders(this)" class="text-secondary removefocus" href="#">Orders</a></li>
+                <li><a onclick="showreport(this)" class="text-secondary removefocus" href="#">Orders Report</a></li>
+                <li><a class="text-secondary removefocus" onclick="showpasschanges(this)" href="#">Change Password</a></li>
+                <li><a class="text-secondary removefocus" onclick="showreviews(this)" href="#">My Product Reviews</a></li>
+
+            </ul>
+        </div>
+        <div class="col-10 salevsregular" id="chart_div">
+
+        </div>
+
+        <div class="col-10 changepass " style="display:none">
+            <div class="container text-center">
+                <h4 class="text-dark"> Change Password</h4>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-5 text-left">
+                        <form onsubmit="return validatepass();">
+                            <input type="hidden" value="@Model.password" name="originalpass" id="currpass" />
+                            <input type="hidden" value="@Model.CustomerID" name="CustomerID" id="cid" />
+                            <div class="form-group">
+                                <label for="CurrentPassword">Current Password</label>
+                                <input type="text" class="form-control" name="password" id="CurrentPassword" placeholder="current password">
+                                <p class="text-danger currenterr validaterr"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="NewPassword">New Password</label>
+                                <input type="text" class="form-control" name="newpassword" id="NewPassword" placeholder="New Password">
+                                <p class="text-danger newerr validaterr"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Confirm Password</label>
+                                <input type="text" class="form-control" name="confirmpassword" id="ConfirmPassword" placeholder="Confirm Password">
+                                <p class="text-danger conerr validaterr"></p>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 reviewdiv" style="display:none">
+            <div class="container text-center">
+                <h3 class="text-secondary">My Account - Product Reviews</h3>
+                <br />
+                @foreach (var item in Model.Reviews)
+                {
+                    <div class="container text-left">
+                        <div class="container">
+                            <p class="text-secondary text-uppercase">@item.ReviewTitle</p>
+                        </div>
+
+                        <hr />
+                        <div class="container">
+                            <p class="text-secondary">@item.Description</p>
+                        </div>
+                        <div class="container">
+                            <p class="text-secondary">Product review for: <a class="text-secondary" href="/Product/Details/@item.ProductID"><u>@item.Product.Product_name</u></a> | Date: @item.Date</p>
+                        </div>
+                        <br />
+                    </div>
+
+                }
+            </div>
+        </div>
+        <div class="col-10 ordersdiv" style="display:none">
+            <br />
+            <button id="btnExport" class="btn btn-light" type="button">Export To Pdf</button>
+            @{
+                Html.RenderAction("GetOrders", "Customer");
+            }
+        </div>
+
+        <div class="col-10 pendingordersdiv" style="display:none">
+            <br />
+           
+            @{
+                Html.RenderAction("GetPendingOrders", "Customer");
+            }
+        </div>
+
+        <div class="col-10 reportdiv" style="display:none">
+            @Html.Partial("CustomerOrderReports");
+        </div>
+        <div class="col-10 infodiv" style="display: none">
+            <div class="container text-center">
+                <h3 class="text-secondary">My Account - Customer Info</h3>
+                <br />
+                <h4 class="text-dark">YOUR PERSONAL DETAILS</h4>
+            </div>
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-3 text-center">
+                        <form method="post" action="/Customer/updateImage" enctype="multipart/form-data" id="ajaxformsub">
+                            @Html.HiddenFor(model => model.CustomerID)
+                            @Html.HiddenFor(model => model.CustomerName)
+                            @Html.HiddenFor(model => model.Email)
+                            @Html.HiddenFor(model => model.Gender)
+                            @Html.HiddenFor(model => model.password)
+                            @Html.HiddenFor(model => model.Username)
+                            @Html.HiddenFor(model => model.CustomerID)
+                            @Html.HiddenFor(model => model.Address)
+                            @Html.HiddenFor(model => model.City)
+                            @Html.HiddenFor(model => model.ZipCode)
+                            @Html.HiddenFor(model => model.PhoneNumber)
+                            @Html.HiddenFor(model => model.usertype)
+
+                            <div class="profile-pic-div">
+                                <img src="~/Content/image/@Model.ImageFile" alt="profile pic" id="photo">
+                                <input type="file" id="file" name="file">
+                                <label for="file" id="uploadBtn">Choose Photo</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-9">
+
+                        @using (Html.BeginForm("UpdateInfo", "Customer", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.CustomerID)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Address)
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.City)
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ZipCode)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.RadioButtonFor(model => model.Gender, "Male", new { htmlAttributes = new { @class = "form-control" } }) @Html.Label("Male")
+                                        @Html.RadioButtonFor(model => model.Gender, "Female", new { htmlAttributes = new { @class = "form-control" } }) @Html.Label("Female")
+                                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+                                        @if (TempData["error"] != null)
+                                        {
+                                            <label style="color:red">@TempData["error"]</label>
+                                        }
+                                    </div>
+                                </div>
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.password)
+
+                                <input type="hidden" value="@Model.ImageFile" id="updateimg" name="ImageFile" />
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.usertype)
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<br />
+
+<div id="PasswordModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deleteHeader">
+
+            </div>
+            <div class="modal-body deleteBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var chartData; // globar variable for hold chart data
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+    // Here We will fill chartData
+
+    $(document).ready(function () {
+
+        $.ajax({
+
+            url: '@Url.Action("SaleVsRegularOrderReport", "Customer")',
+            data: "",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; chartset=utf-8",
+            success: function (data) {
+
+                chartData = data;
+
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+
+            }
+        }).done(function () {
+            // after complete loading data
+            google.setOnLoadCallback(drawChart);
+            drawChart();
+        });
+    });
+
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+            title: "Sale vs Regular Product Order",
+            pointSize: 5
+        };
+
+        var pieChart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        pieChart.draw(data, options);
+
+    }
+
+
+
+
+    //declearing html elements
+    const imgDiv = document.querySelector('.profile-pic-div');
+    const img = document.querySelector('#photo');
+    const file = document.querySelector('#file');
+    const uploadBtn = document.querySelector('#uploadBtn');
+
+    //if user hover on img div
+
+    imgDiv.addEventListener('mouseenter', function () {
+        uploadBtn.style.display = "block";
+    });
+
+    //if we hover out from img div
+
+    imgDiv.addEventListener('mouseleave', function () {
+        uploadBtn.style.display = "none";
+    });
+
+    $(document).ready(function () {
+        $("#file").change(function (e) {
+            const choosedFile = this.files[0];
+
+            if (choosedFile) {
+
+                const reader = new FileReader(); //FileReader is a predefined function of JS
+
+                reader.addEventListener('load', function () {
+                    img.setAttribute('src', reader.result);
+                });
+
+                reader.readAsDataURL(choosedFile);
+
+
+            }
+
+            var formdata = new FormData($('#ajaxformsub').get(0));
+            CallService(formdata);
+
+            function CallService(file) {
+                $.ajax({
+                    url: '@Url.Action("updateImage", "Customer")',
+                    type: 'POST',
+                    data: file,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        $("#updateimg").val(data);
+                    },
+                    error: function () {
+                        alert('Error occured');
+                    }
+                });
+            }
+        });
+    });
+
+    $("body").on("click", "#btnExport", function () {
+        html2canvas($('#tblorder')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Order-details.pdf");
+            }
+        });
+    });
+
+
+    function showreport(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").show();
+        $(".infodiv").hide();
+        $(".changepass").hide();
+        $(".ordersdiv").hide();
+        $(".salevsregular").hide();
+        $(".reviewdiv").hide();
+        $(".pendingordersdiv").hide();
+    }
+    function showinfo(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".ordersdiv").hide();
+        $(".reviewdiv").hide();
+        $(".changepass").hide();
+        $(".salevsregular").hide();
+        $(".infodiv").show();
+        $(".pendingordersdiv").hide();
+    }
+    function showpendingorders(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".infodiv").hide();
+        $(".reviewdiv").hide();
+        $(".changepass").hide();
+        $(".salevsregular").hide();
+        $(".ordersdiv").hide();
+        $(".pendingordersdiv").show();
+    }
+
+    function showorders(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".infodiv").hide();
+        $(".reviewdiv").hide();
+        $(".changepass").hide();
+        $(".salevsregular").hide();
+        $(".ordersdiv").show();
+        $(".pendingordersdiv").hide();
+    }
+
+    function showreviews(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".infodiv").hide();
+        $(".ordersdiv").hide();
+        $(".changepass").hide();
+        $(".salevsregular").hide();
+        $(".reviewdiv").show();
+        $(".pendingordersdiv").hide();
+    }
+    //ddddddddddddddddddddddddddd
+
+    function showsalevsregular(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".infodiv").hide();
+        $(".ordersdiv").hide();
+        $(".reviewdiv").hide();
+        $(".changepass").hide();
+        $(".salevsregular").show();
+        $(".pendingordersdiv").hide();
+    }
+
+     function showpasschanges(element) {
+        $(".removefocus").addClass("text-secondary");
+        $(element).removeClass("text-secondary");
+        $(".reportdiv").hide();
+        $(".infodiv").hide();
+        $(".ordersdiv").hide();
+         $(".reviewdiv").hide();
+         $(".salevsregular").hide();
+         $(".changepass").show();
+         $(".pendingordersdiv").hide();
+    }
+    $("#CurrentPassword").change(function () {
+        if ($("#CurrentPassword").val() != $("#currpass").val()) {
+            $(".currenterr").empty();
+            $(".currenterr").append(`<small class="text-danger err">current password didn't match</small>`);
+        } else {
+            $(".currenterr").empty();
+        }
+    });
+    $("#NewPassword").change(function () {
+        if ($("#NewPassword").val().length < 4) {
+            $(".newerr").empty();
+            $(".newerr").append(`<small class="text-danger err">Minimum length for password is 4</small>`);
+        }else {
+            $(".newerr").empty();
+        }
+    });
+    $("#ConfirmPassword").change(function () {
+        if ($("#ConfirmPassword").val().length < 4) {
+            $(".conerr").empty();
+            $(".conerr").append(`<small class="text-danger err">Minimum length for password is 4</small>`);
+        } else if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+            $(".conerr").empty();
+            $(".conerr").append(`<small class="text-danger err">password doesn't match</small>`);
+        } else if ($("#NewPassword").val() == $("#ConfirmPassword").val()) {
+            $(".conerr").empty();
+            $(".newerr").empty();
+        } else {
+            $(".conerr").empty();
+        }
+    });
+
+
+    function validatepass() {
+        if ($("#CurrentPassword").val().length < 1) {
+            $(".currenterr").empty();
+            $(".currenterr").append(`<small class="text-danger err">current password didn't match</small>`);
+        }
+        if ($("#ConfirmPassword").val().length < 1) {
+
+            $(".conerr").empty();
+            $(".conerr").append(`<small class="text-danger err">confirm password required</small>`);
+        }
+        if ($("#NewPassword").val().length < 1) {
+            $(".newerr").empty();
+            $(".newerr").append(`<small class="text-danger err">New password required</small>`);
+        }
+        if ($(".err").length > 0) {
+            return false;
+        } else {
+            var value = $('form').serialize();
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UpdatePassword", "Customer")',
+                data: value,
+                success: function (response) {
+                    if (response == "success") {
+                        var myModal = new bootstrap.Modal(document.getElementById('PasswordModal'));
+                        myModal.toggle();
+                        $(".modal-header").empty();
+                        $(".modal-body").empty();
+                        $(".modal-header").append(`<h5 class="modal-title">Success</h5><button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
+                        $(".modal-body").append(`<p class="text-success">Password Updated successfully</p>`);
+                        $(".modal-body").append(`<button type = "button" class="ml-2 btn btn-primary" data-dismiss="modal">Close </button >`);
+                        $("#currpass").val($("#ConfirmPassword").val());
+                        $("#NewPassword").val("");
+                        $("#ConfirmPassword").val("");
+                        $("#CurrentPassword").val("");
+                    }
+                }
+
+            });
+            return false;
+        }
+    }
+
+
+</script>
